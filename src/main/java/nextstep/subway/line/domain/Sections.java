@@ -4,12 +4,9 @@ import nextstep.subway.station.domain.Station;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
-import javax.persistence.NoResultException;
 import javax.persistence.OneToMany;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Embeddable
@@ -30,37 +27,11 @@ public class Sections {
     }
 
     public List<Station> getStations() {
-        if (sections.isEmpty()) {
-            return new ArrayList<>();
-        }
-
-        Map<Station, Station> stations = sectionsToMap();
-        return sortStations(stations, findUpStation(stations));
-    }
-
-    private Map<Station, Station> sectionsToMap() {
         return sections.stream()
-                .collect(Collectors.toMap(Section::getUpStation, Section::getDownStation));
-    }
-
-    private Station findUpStation(Map<Station, Station> stations) {
-        return stations.keySet()
-                .stream()
-                .filter(upStation -> !stations.containsValue(upStation))
-                .findFirst()
-                .orElseThrow(() -> new NoResultException("상행 종착역이 존재하지 않습니다."));
-    }
-
-    private List<Station> sortStations(Map<Station, Station> stations, Station upStation) {
-        List<Station> sortedStations = new ArrayList<>();
-
-        Station currentStation = upStation;
-        while (currentStation != null) {
-            sortedStations.add(currentStation);
-            currentStation = stations.get(currentStation);
-        }
-
-        return sortedStations;
+                .map(Section::getStations)
+                .flatMap(Collection::stream)
+                .distinct()
+                .collect(Collectors.toList());
     }
 
     public void add(Section newSection) {
