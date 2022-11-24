@@ -203,8 +203,8 @@ public class PathAcceptanceTest extends AcceptanceTest {
     - 도메인의 구현이 끝나면 해당 도메인과 관계를 맺는 객체에 대해 기능 구현 시작
 
 ### 기능 구현 목록
-- [ ] README.md 요구사항 및 기능 구현 목록 작성
-- [ ] 인수테스트 작성
+- [x] README.md 요구사항 및 기능 구현 목록 작성
+- [x] 인수테스트 작성
 - [ ] 인수 테스트 성공시키기
 - [ ] service 테스트 작성
 - [ ] service 구현
