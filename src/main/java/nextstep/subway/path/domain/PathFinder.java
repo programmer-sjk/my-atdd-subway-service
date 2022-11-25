@@ -11,7 +11,6 @@ import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.WeightedMultigraph;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,7 +62,7 @@ public class PathFinder {
 
     private void validateSameStation(Station sourceStation, Station targetStation) {
         if (sourceStation.equals(targetStation)) {
-            throw new IllegalArgumentException(ErrorCode.FIND_PATH_SAME_STATION.getMessage());
+            throw new IllegalArgumentException(ErrorCode.FIND_PATH_SAME_SOURCE_TARGET.getMessage());
         }
     }
 
