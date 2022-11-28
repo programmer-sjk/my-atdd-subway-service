@@ -13,6 +13,8 @@ public class PathResponse {
         this.distance = distance;
     }
 
+    private PathResponse() {}
+
     public int getDistance() {
         return distance;
     }
