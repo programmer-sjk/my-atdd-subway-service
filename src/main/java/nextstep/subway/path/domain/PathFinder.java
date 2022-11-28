@@ -15,18 +15,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class PathFinder {
-    private WeightedMultigraph<Station, DefaultWeightedEdge> graph;
+    private final WeightedMultigraph<Station, DefaultWeightedEdge> graph;
     private final Lines lines;
 
     public PathFinder(List<Line> lines) {
         graph = new WeightedMultigraph<>(DefaultWeightedEdge.class);
         this.lines = new Lines(lines);
 
-        initializeVertax();
+        initializeVertex();
         initializeEdgeWeight();
     }
 
-    private void initializeVertax() {
+    private void initializeVertex() {
         lines.getStations()
                 .forEach(graph::addVertex);
     }
@@ -49,7 +49,7 @@ public class PathFinder {
 
         List<StationResponse> responses = shortestPath.getVertexList()
                 .stream()
-                .map(StationResponse::of)
+                .map(StationResponse::from)
                 .collect(Collectors.toList());
 
         return new PathResponse(responses, (int) shortestPath.getWeight());
