@@ -19,6 +19,9 @@ public class Line extends BaseEntity {
     @Embedded
     private Sections sections = new Sections(new ArrayList<>());
 
+    @Embedded
+    private ExtraCharge extraCharge;
+
     protected Line() {}
 
     public Line(String name, String color) {
