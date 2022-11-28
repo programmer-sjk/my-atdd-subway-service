@@ -24,9 +24,10 @@ public class Line extends BaseEntity {
 
     protected Line() {}
 
-    public Line(String name, String color) {
+    public Line(String name, String color, ExtraCharge extraCharge) {
         this.name = name;
         this.color = color;
+        this.extraCharge = extraCharge;
     }
 
     public Long getId() {

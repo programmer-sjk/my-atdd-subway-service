@@ -1,6 +1,7 @@
 package nextstep.subway.line.dto;
 
 import nextstep.subway.line.domain.Distance;
+import nextstep.subway.line.domain.ExtraCharge;
 import nextstep.subway.line.domain.Line;
 import nextstep.subway.line.domain.Section;
 import nextstep.subway.station.domain.Station;
@@ -11,6 +12,7 @@ public class LineRequest {
     private Long upStationId;
     private Long downStationId;
     private int distance;
+    private int extraCharge;
 
     private LineRequest() {}
 
@@ -44,7 +46,7 @@ public class LineRequest {
 
     public Line toLine(Station upStation, Station downStation) {
         Section section = new Section(upStation, downStation, new Distance(distance));
-        Line line = new Line(name, color);
+        Line line = new Line(name, color, new ExtraCharge(extraCharge));
         line.addSection(section);
 
         return line;
@@ -56,6 +58,7 @@ public class LineRequest {
         private Long upStationId;
         private Long downStationId;
         private int distance;
+        private int extraCharge;
 
         public Builder() {}
 
@@ -81,6 +84,11 @@ public class LineRequest {
 
         public Builder distance(int distance) {
             this.distance = distance;
+            return this;
+        }
+
+        public Builder extraCharge(int extraCharge) {
+            this.extraCharge = extraCharge;
             return this;
         }
 
