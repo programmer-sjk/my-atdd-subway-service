@@ -29,23 +29,23 @@ class PathFinderTest {
         Station 인천역 = new Station("인천역");
         Station 부평역 = new Station("부평역");
 
-        Line 신분당선 = LineTestFactory.create("신분당선", "bg-red-600", 강남역, 판교역, 10, 500);
-        Line 일호선 = LineTestFactory.create("일호선", "bg-blue-600", 인천역, 부평역, 10, 400);
+        Line 신분당선 = LineTestFactory.create("신분당선", "bg-red-600", 강남역, 판교역, 10, 0);
+        Line 일호선 = LineTestFactory.create("일호선", "bg-blue-600", 인천역, 부평역, 10, 0);
         일호선.addSection(SectionTestFactory.create(판교역, 인천역, 20));
 
         PathFinder pathFinder = new PathFinder(Arrays.asList(신분당선, 일호선));
 
         // when
-        PathResponse response = pathFinder.shortestPath(강남역, 부평역);
+        ShortestPath path = pathFinder.shortestPath(강남역, 부평역);
 
-        List<String> stationNames = response.getStations()
+        List<String> stationNames = path.getStations()
                 .stream()
                 .map(StationResponse::getName)
                 .collect(Collectors.toList());
 
         // then
         assertAll(
-                () -> assertThat(response.getDistance()).isEqualTo(40),
+                () -> assertThat(path.getDistance()).isEqualTo(40),
                 () -> assertThat(stationNames).containsExactlyElementsOf(
                         Arrays.asList("강남역", "판교역", "인천역", "부평역")
                 )
@@ -58,7 +58,7 @@ class PathFinderTest {
         // given
         Station 강남역 = new Station("강남역");
         PathFinder pathFinder = new PathFinder(
-                Arrays.asList(new Line("신분당선", "bg-red-600", new ExtraFare(1_000)))
+                Arrays.asList(new Line("신분당선", "bg-red-600", new ExtraFare(0)))
         );
 
         // when & then
@@ -74,7 +74,7 @@ class PathFinderTest {
         Station 강남역 = new Station("강남역");
         Station 판교역 = new Station("판교역");
         PathFinder pathFinder = new PathFinder(
-                Arrays.asList(new Line("신분당선", "bg-red-600", new ExtraFare(1_000)))
+                Arrays.asList(new Line("신분당선", "bg-red-600", new ExtraFare(0)))
         );
 
         // when & then
@@ -92,8 +92,8 @@ class PathFinderTest {
         Station 인천역 = new Station("인천역");
         Station 부평역 = new Station("부평역");
 
-        Line 신분당선 = LineTestFactory.create("신분당선", "bg-red-600", 강남역, 판교역, 10, 300);
-        Line 일호선 = LineTestFactory.create("일호선", "bg-blue-600", 인천역, 부평역, 10, 800);
+        Line 신분당선 = LineTestFactory.create("신분당선", "bg-red-600", 강남역, 판교역, 10, 0);
+        Line 일호선 = LineTestFactory.create("일호선", "bg-blue-600", 인천역, 부평역, 10, 0);
         PathFinder pathFinder = new PathFinder(Arrays.asList(신분당선, 일호선));
 
         // when & then
