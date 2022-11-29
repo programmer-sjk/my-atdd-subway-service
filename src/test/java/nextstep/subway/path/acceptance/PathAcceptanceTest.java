@@ -52,10 +52,10 @@ class PathAcceptanceTest extends AcceptanceTest {
         인천역 = 지하철역_등록되어_있음("인천역").as(StationResponse.class);
         부평역 = 지하철역_등록되어_있음("부평역").as(StationResponse.class);
 
-        지하철_노선_등록되어_있음("신분당선", "bg-red-600", 강남역.getId(), 양재역.getId(), 10, 2_000);
-        지하철_노선_등록되어_있음("이호선", "bg-blue-600", 교대역.getId(), 강남역.getId(), 10, 500);
-        지하철_노선_등록되어_있음("일호선", "bg-yellow-600", 인천역.getId(), 부평역.getId(), 5, 700);
-        삼호선 = 지하철_노선_등록되어_있음("삼호선", "bg-red-400", 교대역.getId(), 양재역.getId(), 5, 600);
+        지하철_노선_등록되어_있음("신분당선", "bg-red-600", 강남역.getId(), 양재역.getId(), 10, 0);
+        지하철_노선_등록되어_있음("이호선", "bg-blue-600", 교대역.getId(), 강남역.getId(), 10, 0);
+        지하철_노선_등록되어_있음("일호선", "bg-yellow-600", 인천역.getId(), 부평역.getId(), 5, 0);
+        삼호선 = 지하철_노선_등록되어_있음("삼호선", "bg-red-400", 교대역.getId(), 양재역.getId(), 5, 0);
 
         지하철_노선에_지하철역_등록_요청(삼호선, 교대역, 남부터미널역, 3);
     }
@@ -67,7 +67,7 @@ class PathAcceptanceTest extends AcceptanceTest {
         ExtractableResponse<Response> response = 최단경로_조회_요청(강남역, 남부터미널역);
 
         // then
-        최단경로_요청이_정상_조회됨(response, 12, 강남역, 양재역, 남부터미널역);
+        최단경로_요청이_정상_조회됨(response, 12, 1_250, 강남역, 양재역, 남부터미널역);
     }
 
     @DisplayName("최단 경로를 조회 시, 출발역과 도착역이 같다면 예외가 발생한다")
@@ -103,9 +103,20 @@ class PathAcceptanceTest extends AcceptanceTest {
         최단_경로_조회_실패(response);
     }
 
+    @DisplayName("최단 경로 조회 시, 지하철 이용요금도 조회된다.")
+    @Test
+    void extraFare() {
+        // when
+        ExtractableResponse<Response> response = 최단경로_조회_요청(강남역, 남부터미널역);
+
+        // then
+        최단경로_요청이_정상_조회됨(response, 12, 1_250, 강남역, 양재역, 남부터미널역);
+    }
+
     private void 최단경로_요청이_정상_조회됨(
             ExtractableResponse<Response> response,
             int distance,
+            int fare,
             StationResponse... stations
     ) {
         PathResponse pathResponse = response.as(PathResponse.class);
@@ -121,6 +132,7 @@ class PathAcceptanceTest extends AcceptanceTest {
 
         assertThat(actualIds).containsAll(expectedIds);
         assertThat(pathResponse.getDistance()).isEqualTo(distance);
+        assertThat(pathResponse.getFare()).isEqualTo(fare);
     }
 
     private static ExtractableResponse<Response> 최단경로_조회_요청(
