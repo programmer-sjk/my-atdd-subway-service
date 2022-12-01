@@ -22,6 +22,7 @@ public class LineRequest {
         this.upStationId = builder.upStationId;
         this.downStationId = builder.downStationId;
         this.distance = builder.distance;
+        this.extraFare = builder.extraFare;
     }
 
     public String getName() {
@@ -42,6 +43,10 @@ public class LineRequest {
 
     public int getDistance() {
         return distance;
+    }
+
+    public int getExtraFare() {
+        return extraFare;
     }
 
     public Line toLine(Station upStation, Station downStation) {
